@@ -12,6 +12,7 @@ typedef hue_scroll_t *hue_scroll_handle_t;
 
 typedef struct {
     uint32_t pixels_amount;
+    uint32_t color_cycle_interval_ms;
 } hue_scroll_init_t;
 
 uint32_t hue_scroll_get_handle_size(hue_scroll_init_t cfg);

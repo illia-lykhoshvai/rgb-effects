@@ -2,6 +2,7 @@
 
 struct hue_scroll_t {
     uint32_t pixels_count;
+    uint32_t color_cycle_interval_ms;
 };
 
 uint32_t hue_scroll_get_handle_size(hue_scroll_init_t cfg)
@@ -14,24 +15,31 @@ void hue_scroll_init(void *hndl_ptr, hue_scroll_init_t cfg)
 {
     hue_scroll_handle_t hndl = (hue_scroll_handle_t) hndl_ptr;
     hndl->pixels_count = cfg.pixels_amount;
+    hndl->color_cycle_interval_ms = cfg.color_cycle_interval_ms;
 }
 
-void hue_scroll_render(RGB_t *leds, uint32_t current_time_ms, void *hndl_ptr)
+void hue_scroll_render(RGB_t *leds, uint32_t current_time_ms, void *hndl_ptr) 
 {
     hue_scroll_handle_t hndl = (hue_scroll_handle_t) hndl_ptr;
 
-    const uint16_t hue_max = 360;
-    const uint16_t colorCycleInterval = 3000; // ms
+    const uint16_t hue_max = 360;                // Full hue range
 
-    uint16_t periodical_time = (current_time_ms % colorCycleInterval);
-    uint16_t hue_component = (uint16_t)(periodical_time * hue_max / colorCycleInterval);
+    // Calculate the base hue component based on current time
+    uint16_t periodical_time = (current_time_ms % hndl->color_cycle_interval_ms);
+    uint16_t base_hue = (uint16_t)(periodical_time * hue_max / hndl->color_cycle_interval_ms);
+
+    // Hue increment per pixel to create a smooth gradient
+    uint16_t delta_each_pixel = hue_max / hndl->pixels_count;
 
     for (size_t i = 0; i < hndl->pixels_count; i++) {
-        uint16_t delta_each_pixel = hue_max / 6 / hndl->pixels_count;
-        hue_component += delta_each_pixel;
-        while (hue_component > hue_max) { hue_component -= hue_max; }
-        HSV_t hsv_color = { .h = hue_component, .s = 0xff, .v = 0xff};
+        // Calculate hue for the current pixel, wrapping around hue_max
+        uint16_t hue_component = (base_hue + 1 * delta_each_pixel) % hue_max;
+
+        // Create HSV color and convert to RGB
+        HSV_t hsv_color = { .h = hue_component, .s = 255, .v = 255 };
         RGB_t rgb_color = hsv_to_rgb(hsv_color);
+
+        // Assign the calculated color to the current pixel
         leds[i] = rgb_color;
     }
 }
