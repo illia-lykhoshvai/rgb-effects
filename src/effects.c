@@ -4,6 +4,7 @@ uint32_t effect_get_handle_size(effect_type_t t, effects_init_t cfg)
 {
     switch (t) {
         case EFFECT_TYPE_HUE_SCROLL: 
+        case EFFECT_TYPE_RAINBOW:
             return hue_scroll_get_handle_size(cfg.hue_scroll);
 
         case EFFECT_TYPE_FIRE: 
@@ -25,6 +26,7 @@ void effect_init(effect_type_t t, void *hndl, effects_init_t cfg)
 {
     switch (t) {
         case EFFECT_TYPE_HUE_SCROLL: 
+        case EFFECT_TYPE_RAINBOW:
             hue_scroll_init(hndl, cfg.hue_scroll);
             break;
 
@@ -51,6 +53,7 @@ void effect_render(effect_type_t t, RGB_t *leds, uint32_t current_time_ms, void 
     typedef void(*render_func_t)(RGB_t *leds, uint32_t current_time_ms, void *hndl);
     render_func_t f[EFFECT_TYPE_COUNT] = {
         [EFFECT_TYPE_HUE_SCROLL] = hue_scroll_render,
+        [EFFECT_TYPE_RAINBOW] = hue_scroll_render,
         [EFFECT_TYPE_FIRE] = fire_render,
         [EFFECT_TYPE_METEORS] = meteors_render,
         [EFFECT_TYPE_EXPLOSIONS] = explosions_render,

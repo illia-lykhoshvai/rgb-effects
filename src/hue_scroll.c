@@ -3,6 +3,7 @@
 struct hue_scroll_t {
     uint32_t pixels_count;
     uint32_t color_cycle_interval_ms;
+    bool is_rainbow;
 };
 
 uint32_t hue_scroll_get_handle_size(hue_scroll_init_t cfg)
@@ -16,6 +17,7 @@ void hue_scroll_init(void *hndl_ptr, hue_scroll_init_t cfg)
     hue_scroll_handle_t hndl = (hue_scroll_handle_t) hndl_ptr;
     hndl->pixels_count = cfg.pixels_amount;
     hndl->color_cycle_interval_ms = cfg.color_cycle_interval_ms;
+    hndl->is_rainbow = cfg.is_rainbow;
 }
 
 void hue_scroll_render(RGB_t *leds, uint32_t current_time_ms, void *hndl_ptr) 
@@ -32,8 +34,9 @@ void hue_scroll_render(RGB_t *leds, uint32_t current_time_ms, void *hndl_ptr)
     uint16_t delta_each_pixel = hue_max / hndl->pixels_count;
 
     for (size_t i = 0; i < hndl->pixels_count; i++) {
+        uint8_t pixel_variance = hndl->is_rainbow ? i : 1;
         // Calculate hue for the current pixel, wrapping around hue_max
-        uint16_t hue_component = (base_hue + 1 * delta_each_pixel) % hue_max;
+        uint16_t hue_component = (base_hue + pixel_variance * delta_each_pixel) % hue_max;
 
         // Create HSV color and convert to RGB
         HSV_t hsv_color = { .h = hue_component, .s = 255, .v = 255 };
