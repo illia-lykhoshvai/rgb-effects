@@ -55,7 +55,7 @@ void fire_init(void *hndl_ptr, fire_init_t cfg)
         case FIRE_TYPE_WARM:
             hndl->min_max_pair[PARAM_HUE][0] = 15;
             hndl->min_max_pair[PARAM_HUE][1] = 60;
-            hndl->min_max_pair[PARAM_SAT][0] = 128;
+            hndl->min_max_pair[PARAM_SAT][0] = 240;
             hndl->min_max_pair[PARAM_SAT][1] = 255;
             hndl->min_max_pair[PARAM_VAL][0] = 255;
             hndl->min_max_pair[PARAM_VAL][1] = 255;
@@ -64,7 +64,7 @@ void fire_init(void *hndl_ptr, fire_init_t cfg)
         case FIRE_TYPE_COLD:
             hndl->min_max_pair[PARAM_HUE][0] = 196;
             hndl->min_max_pair[PARAM_HUE][1] = 265;
-            hndl->min_max_pair[PARAM_SAT][0] = 128;
+            hndl->min_max_pair[PARAM_SAT][0] = 240;
             hndl->min_max_pair[PARAM_SAT][1] = 255;
             hndl->min_max_pair[PARAM_VAL][0] = 255;
             hndl->min_max_pair[PARAM_VAL][1] = 255;
@@ -83,7 +83,7 @@ void fire_init(void *hndl_ptr, fire_init_t cfg)
 
 void fire_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
 {
-    const uint8_t frame_period = 40;
+    const uint8_t frame_period = 1000 / effects_get_fps();
     const uint16_t render_period = (200 / frame_period);
     uint32_t frames_untill_render = (current_time_ms / frame_period) % render_period;
 

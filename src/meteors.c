@@ -56,7 +56,7 @@ void meteors_init(void *hndl_ptr, meteors_init_t cfg)
 static void meteor_create(meteors_handle_t hndl, meteor_t *m)
 {
     if (hndl->is_color_random) {
-        m->color = get_random_color();
+        m->color = effects_rand_rgb();
     }
     if (hndl->dir == METEORS_DIRECTION_RANDOM) {
         m->dir_towards_end = ranged_rand(0, 100) > 50;
@@ -72,6 +72,11 @@ static void meteor_create(meteors_handle_t hndl, meteor_t *m)
 void meteors_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
 {
     meteors_handle_t hndl = (meteors_handle_t) hndl_ptr;
+
+    for (uint32_t i = 0; i < hndl->width; i++) {
+        out[i] = hndl->bg_color;
+    }
+
     for (uint32_t i = 0; i < hndl->max_items_num; i++) {
         meteor_t *m = &hndl->meteor[i];
 
@@ -95,8 +100,7 @@ void meteors_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
         bool next_pos_valid = next_pos < hndl->width;
 
         if (next_pos_valid) {
-            RGB_t bg_color = memcmp(&hndl->bg_color, &out[next_pos], sizeof(RGB_t)) ? out[next_pos] : hndl->bg_color;
-            out[next_pos] = blend(m->color, bg_color, 255 - m->blend_factor);
+            out[next_pos] = blend(m->color, hndl->bg_color, 255 - m->blend_factor);
         }
 
         // draw tail
@@ -109,12 +113,11 @@ void meteors_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
             uint8_t min = blend_step*(m->tail - (j - 1));
             uint8_t max = blend_step*(m->tail - j);
             uint8_t factor = map_range(m->blend_factor, 0, 255, min, max);
-            RGB_t bg_color = memcmp(&hndl->bg_color, &out[led_index], sizeof(RGB_t)) ? out[led_index] : hndl->bg_color;
-            out[led_index] = blend(bg_color, m->color, factor);
+            out[led_index] = blend(hndl->bg_color, m->color, factor);
         }
 
         // calculate step
-        const uint8_t frame_period = 40; // 25 FPS
+        const uint8_t frame_period = 1000 / effects_get_fps();
         uint32_t frames_untill_move = (current_time_ms / frame_period) % m->speed;
         bool need_move = frames_untill_move == 0;
 

@@ -6,6 +6,7 @@
 
 #include "colors.h"
 #include "utils.h"
+#include "interface.h" // LOOK INSIDE FOR EXTERN FUNCTIONS DEFINITION
 
 #include "hue_scroll.h"
 #include "fire.h"

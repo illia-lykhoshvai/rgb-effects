@@ -64,7 +64,7 @@ static void explosion_create(explosions_handle_t hndl, explosion_t *e)
     e->blend_factor = 0;
 
     if (hndl->is_color_random) {
-        e->color = get_random_color();
+        e->color = effects_rand_rgb();
     }
 
     uint32_t new_pos = 0;
@@ -77,6 +77,10 @@ static void explosion_create(explosions_handle_t hndl, explosion_t *e)
 void explosions_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
 {
     explosions_handle_t hndl = (explosions_handle_t) hndl_ptr;
+
+    for (uint32_t i = 0; i < hndl->width; i++) {
+        out[i] = hndl->bg_color;
+    }
 
     for (uint32_t i = 0; i < hndl->explosions_max_num; i++) {
         explosion_t *e = &hndl->explosion[i];
@@ -97,7 +101,7 @@ void explosions_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
 
         // calculate blend
         const uint16_t full_animation_blend = UINT8_MAX * 2;
-        uint32_t animation_period = (1000 / extern_fps);
+        uint32_t animation_period = 1000 / effects_get_fps();
         uint32_t explosion_timestamp = current_time_ms - e->birth_time;
         uint32_t frames_left = (explosion_timestamp / animation_period) % hndl->speed;
         e->blend_factor = map_range(frames_left, 0, hndl->speed - 1, 0, full_animation_blend);

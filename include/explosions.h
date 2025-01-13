@@ -24,9 +24,6 @@ typedef struct {
     explosions_colors_t c;
 } explosions_init_t;
 
-// Project MUST have this variable somewhere
-extern uint8_t extern_fps;
-
 uint32_t explosions_get_handle_size(explosions_init_t cfg);
 void explosions_init(void *hndl_ptr, explosions_init_t cfg);
 void explosions_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr);

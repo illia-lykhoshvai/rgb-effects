@@ -17,5 +17,5 @@ add_library(EffectsLibrary STATIC ${LIB_SOURCES})
 target_include_directories(EffectsLibrary PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_compile_options(EffectsLibrary
-    PRIVATE -Wall
+    PRIVATE -Wall -Os
 )

@@ -16,18 +16,10 @@ RGB_t blend(RGB_t color1, RGB_t color2, uint8_t factor)
     return result;
 }
 
-// Simple pseudo-random generator (linear congruential)
-static uint32_t rand_seed = 123456; // Fixed seed for reproducibility
-uint32_t simple_rand(void) 
-{
-    rand_seed = (rand_seed * 1103515245 + 12345) & 0x7FFFFFFF;
-    return rand_seed;
-}
-
 uint32_t ranged_rand(uint32_t min, uint32_t max) 
 {
     uint32_t range = max - min + 1;
-    return min + (simple_rand() % range);
+    return min + (effects_rand_u32() % range);
 }
 
 // Function to generate a smoothed random value
@@ -39,7 +31,7 @@ int32_t smoothed_rand(int32_t min, int32_t max, int32_t max_delta, int32_t *last
     }
 
     // Generate a pseudo-random delta within the range [-max_delta, max_delta]
-    int32_t delta = (simple_rand() % (max_delta * 2 + 1)) - max_delta;
+    int32_t delta = (effects_rand_u32() % (max_delta * 2 + 1)) - max_delta;
 
     // Calculate the new value
     int32_t new_value = *last_value + delta;
@@ -52,13 +44,4 @@ int32_t smoothed_rand(int32_t min, int32_t max, int32_t max_delta, int32_t *last
     *last_value = new_value;
 
     return new_value;
-}
-
-RGB_t get_random_color(void)
-{
-    return hsv_to_rgb((HSV_t) {
-        .h = ranged_rand(0, 360),
-        .s = ranged_rand(127, 255),
-        .v = ranged_rand(127, 255),
-    });
 }
