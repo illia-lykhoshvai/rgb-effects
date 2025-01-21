@@ -7,6 +7,7 @@ set(LIB_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/hue_scroll.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/meteors.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/explosions.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/garland.c
     ${CMAKE_CURRENT_SOURCE_DIR}/src/effects.c
 )
 

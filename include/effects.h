@@ -12,6 +12,7 @@
 #include "fire.h"
 #include "meteors.h"
 #include "explosions.h"
+#include "garland.h"
 
 typedef enum {
     EFFECT_TYPE_HUE_SCROLL = 0,
@@ -19,6 +20,7 @@ typedef enum {
     EFFECT_TYPE_FIRE,
     EFFECT_TYPE_METEORS,
     EFFECT_TYPE_EXPLOSIONS,
+    EFFECT_TYPE_GARLAND,
     EFFECT_TYPE_COUNT,
 } effect_type_t;
 
@@ -27,6 +29,7 @@ typedef union {
     fire_init_t fire;
     meteors_init_t meteors;
     explosions_init_t explosions;
+    garland_init_t garland;
 } effects_init_t;
 
 uint32_t effect_get_handle_size(effect_type_t t, effects_init_t cfg);

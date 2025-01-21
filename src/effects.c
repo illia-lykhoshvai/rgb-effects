@@ -16,6 +16,9 @@ uint32_t effect_get_handle_size(effect_type_t t, effects_init_t cfg)
         case EFFECT_TYPE_EXPLOSIONS: 
             return explosions_get_handle_size(cfg.explosions);
 
+        case EFFECT_TYPE_GARLAND: 
+            return garland_get_handle_size(cfg.garland);
+
         default:
         case EFFECT_TYPE_COUNT:
             return 0;
@@ -42,6 +45,10 @@ void effect_init(effect_type_t t, void *hndl, effects_init_t cfg)
             explosions_init(hndl, cfg.explosions);
             break;
 
+        case EFFECT_TYPE_GARLAND: 
+            garland_init(hndl, cfg.garland);
+            break;
+
         default:
         case EFFECT_TYPE_COUNT:
             break;
@@ -57,6 +64,7 @@ void effect_render(effect_type_t t, RGB_t *leds, uint32_t current_time_ms, void 
         [EFFECT_TYPE_FIRE] = fire_render,
         [EFFECT_TYPE_METEORS] = meteors_render,
         [EFFECT_TYPE_EXPLOSIONS] = explosions_render,
+        [EFFECT_TYPE_GARLAND] = garland_render,
     };
 
     if (t < EFFECT_TYPE_COUNT) {
