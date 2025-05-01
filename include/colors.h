@@ -2,15 +2,15 @@
 
 #include <stdint.h>
 
-#define RGB_BLACK ((RGB_t){.r=0,.g=0,.b=0})
-#define RGB_WHITE ((RGB_t){.r=0xff,.g=0xff,.b=0xff})
-#define RGB_RED ((RGB_t){.r=0xff,.g=0,.b=0})
-#define RGB_GREEN ((RGB_t){.r=0,.g=0xff,.b=0})
-#define RGB_BLUE ((RGB_t){.r=0,.g=0,.b=0xff})
-#define RGB_YELLOW ((RGB_t){.r=0xff,.g=0xff,.b=0})
-#define RGB_MAGENTA ((RGB_t){.r=0xff,.g=0,.b=0xff})
-#define RGB_CYAN ((RGB_t){.r=0,.g=0xff,.b=0xff})
-#define RGB_PINK ((RGB_t){.r=0xfc,.g=0x0f,.b=0xc0})
+#define RGB_BLACK   ((RGB_t) { .r=0x00, .g=0x00, .b=0x00})
+#define RGB_WHITE   ((RGB_t) { .r=0xff, .g=0xff, .b=0xff})
+#define RGB_RED     ((RGB_t) { .r=0xff, .g=0x00, .b=0x00})
+#define RGB_GREEN   ((RGB_t) { .r=0x00, .g=0xff, .b=0x00})
+#define RGB_BLUE    ((RGB_t) { .r=0x00, .g=0x00, .b=0xff})
+#define RGB_YELLOW  ((RGB_t) { .r=0xff, .g=0xff, .b=0x00})
+#define RGB_MAGENTA ((RGB_t) { .r=0xff, .g=0x00, .b=0xff})
+#define RGB_CYAN    ((RGB_t) { .r=0x00, .g=0xff, .b=0xff})
+#define RGB_PINK    ((RGB_t) { .r=0xfc, .g=0x0f, .b=0xc0})
 
 typedef struct {
     uint16_t h; // Hue: 0-360 (scaled to fit 0-360 in 16 bits)

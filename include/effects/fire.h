@@ -21,6 +21,6 @@ typedef struct {
     fire_type_t type;
 } fire_init_t;
 
-uint32_t fire_get_handle_size(fire_init_t cfg);
-void fire_init(void *hndl_ptr, fire_init_t cfg);
-void fire_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr);
+uint32_t fire_get_handle_size(const fire_init_t *cfg);
+void fire_init(void *hndl_ptr, const fire_init_t *cfg);
+void fire_render(void *hndl_ptr, RGB_t *out, uint32_t current_time_ms);

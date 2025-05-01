@@ -32,6 +32,6 @@ typedef union {
     garland_init_t garland;
 } effects_init_t;
 
-uint32_t effect_get_handle_size(effect_type_t t, effects_init_t cfg);
-void effect_init(effect_type_t t, void *hndl, effects_init_t cfg);
-void effect_render(effect_type_t t, RGB_t *leds, uint32_t current_time_ms, void *hndl);
+uint32_t effect_get_handle_size(effect_type_t t, const effects_init_t *cfg);
+void effect_init(effect_type_t t, const effects_init_t *cfg, void *hndl);
+void effect_render(void *hndl, effect_type_t t, RGB_t *leds, uint32_t current_time_ms);

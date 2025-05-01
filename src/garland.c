@@ -9,21 +9,21 @@ struct garland_t {
     // others:
 };
 
-uint32_t garland_get_handle_size(garland_init_t cfg)
+uint32_t garland_get_handle_size(const garland_init_t *cfg)
 {
-    (void) cfg;
+    (void) cfg; // not used, just to supress the warning
     return sizeof(garland_t);
 }
-void garland_init(void *hndl_ptr, garland_init_t cfg)
+void garland_init(void *hndl_ptr, const garland_init_t *cfg)
 {
     garland_handle_t hndl = (garland_handle_t) hndl_ptr;
-    hndl->width = cfg.width;
-    hndl->c = cfg.c;
-    hndl->ms_per_group = cfg.ms_per_group;
-    hndl->pixels_in_group = cfg.pixels_in_group;
+    hndl->width = cfg->width;
+    hndl->c = cfg->c;
+    hndl->ms_per_group = cfg->ms_per_group;
+    hndl->pixels_in_group = cfg->pixels_in_group;
 }
 
-void garland_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
+void garland_render(void *hndl_ptr, RGB_t *out, uint32_t current_time_ms)
 {
     garland_handle_t hndl = (garland_handle_t) hndl_ptr;
 

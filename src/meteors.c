@@ -27,27 +27,27 @@ struct meteors_t {
     meteor_t meteor[];
 };
 
-uint32_t meteors_get_handle_size(meteors_init_t cfg)
+uint32_t meteors_get_handle_size(const meteors_init_t *cfg)
 {
-    return sizeof(meteors_t) + (cfg.meteors_cnt * sizeof(meteor_t));
+    return sizeof(meteors_t) + (cfg->meteors_cnt * sizeof(meteor_t));
 }
 
-void meteors_init(void *hndl_ptr, meteors_init_t cfg)
+void meteors_init(void *hndl_ptr, const meteors_init_t *cfg)
 {
     meteors_handle_t hndl = (meteors_handle_t) hndl_ptr;
-    hndl->width = cfg.width;
-    hndl->dir = cfg.dir;
-    hndl->tail_min = cfg.tail_min;
-    hndl->tail_max = cfg.tail_max;
+    hndl->width = cfg->width;
+    hndl->dir = cfg->dir;
+    hndl->tail_min = cfg->tail_min;
+    hndl->tail_max = cfg->tail_max;
     
-    hndl->is_color_random = cfg.c.random;
-    hndl->bg_color = cfg.c.bg_color;
+    hndl->is_color_random = cfg->c.random;
+    hndl->bg_color = cfg->c.bg_color;
 
-    hndl->max_items_num = cfg.meteors_cnt;
-    for(uint32_t i = 0; i < cfg.meteors_cnt; i++) {
+    hndl->max_items_num = cfg->meteors_cnt;
+    for(uint32_t i = 0; i < cfg->meteors_cnt; i++) {
         hndl->meteor[i].head_pos = NO_POS;
         if (!hndl->is_color_random) {
-            hndl->meteor[i].color = cfg.c.meteors_color;
+            hndl->meteor[i].color = cfg->c.meteors_color;
         }
     }
     hndl->prev_birth_step = UINT32_MAX/2;
@@ -69,7 +69,7 @@ static void meteor_create(meteors_handle_t hndl, meteor_t *m)
     m->tail = ranged_rand(hndl->tail_min, hndl->tail_max);
 }
 
-void meteors_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
+void meteors_render(void *hndl_ptr, RGB_t *out, uint32_t current_time_ms)
 {
     meteors_handle_t hndl = (meteors_handle_t) hndl_ptr;
 

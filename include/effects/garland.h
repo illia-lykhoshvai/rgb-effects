@@ -22,6 +22,6 @@ typedef struct {
     uint32_t pixels_in_group;
 } garland_init_t;
 
-uint32_t garland_get_handle_size(garland_init_t cfg);
-void garland_init(void *hndl, garland_init_t cfg);
-void garland_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr);
+uint32_t garland_get_handle_size(const garland_init_t *cfg);
+void garland_init(void *hndl, const garland_init_t *cfg);
+void garland_render(void *hndl_ptr, RGB_t *out, uint32_t current_time_ms);

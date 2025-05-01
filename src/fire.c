@@ -40,17 +40,17 @@ static RGB_t generate_fire_color(fire_handle_t hndl, fire_pixel_buf_t *pixel_buf
     });
 }
 
-uint32_t fire_get_handle_size(fire_init_t cfg)
+uint32_t fire_get_handle_size(const fire_init_t *cfg)
 {
-    return sizeof(fire_t) + (sizeof(fire_pixel_buf_t) * cfg.pixels_amount);
+    return sizeof(fire_t) + (sizeof(fire_pixel_buf_t) * cfg->pixels_amount);
 }
 
-void fire_init(void *hndl_ptr, fire_init_t cfg)
+void fire_init(void *hndl_ptr, const fire_init_t *cfg)
 {
     fire_handle_t hndl = (fire_handle_t) hndl_ptr;
-    hndl->pixels_count = cfg.pixels_amount;
+    hndl->pixels_count = cfg->pixels_amount;
 
-    switch (cfg.type) {
+    switch (cfg->type) {
         default:
         case FIRE_TYPE_WARM:
             hndl->min_max_pair[PARAM_HUE][0] = 15;
@@ -81,7 +81,7 @@ void fire_init(void *hndl_ptr, fire_init_t cfg)
     }
 }
 
-void fire_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
+void fire_render(void *hndl_ptr, RGB_t *out, uint32_t current_time_ms)
 {
     const uint8_t frame_period = 1000 / effects_get_fps();
     const uint16_t render_period = (200 / frame_period);

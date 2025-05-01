@@ -24,6 +24,6 @@ typedef struct {
     explosions_colors_t c;
 } explosions_init_t;
 
-uint32_t explosions_get_handle_size(explosions_init_t cfg);
-void explosions_init(void *hndl_ptr, explosions_init_t cfg);
-void explosions_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr);
+uint32_t explosions_get_handle_size(const explosions_init_t *cfg);
+void explosions_init(void *hndl_ptr, const explosions_init_t *cfg);
+void explosions_render(void *hndl_ptr, RGB_t *out, uint32_t current_time_ms);

@@ -15,7 +15,7 @@ set(LIB_SOURCES
 add_library(EffectsLibrary STATIC ${LIB_SOURCES})
 
 # Include the library's headers
-target_include_directories(EffectsLibrary PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(EffectsLibrary PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/include/effects)
 
 target_compile_options(EffectsLibrary
     PRIVATE -Wall -Os

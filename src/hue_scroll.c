@@ -6,21 +6,21 @@ struct hue_scroll_t {
     bool is_rainbow;
 };
 
-uint32_t hue_scroll_get_handle_size(hue_scroll_init_t cfg)
+uint32_t hue_scroll_get_handle_size(const hue_scroll_init_t *cfg)
 {
-    (void) cfg; // no used, to not produce Warning
+    (void) cfg; // no used, to supress the warning
     return sizeof(hue_scroll_t);
 }
 
-void hue_scroll_init(void *hndl_ptr, hue_scroll_init_t cfg)
+void hue_scroll_init(void *hndl_ptr, const hue_scroll_init_t *cfg)
 {
     hue_scroll_handle_t hndl = (hue_scroll_handle_t) hndl_ptr;
-    hndl->pixels_count = cfg.pixels_amount;
-    hndl->color_cycle_interval_ms = cfg.color_cycle_interval_ms;
-    hndl->is_rainbow = cfg.is_rainbow;
+    hndl->pixels_count = cfg->pixels_amount;
+    hndl->color_cycle_interval_ms = cfg->color_cycle_interval_ms;
+    hndl->is_rainbow = cfg->is_rainbow;
 }
 
-void hue_scroll_render(RGB_t *leds, uint32_t current_time_ms, void *hndl_ptr) 
+void hue_scroll_render(void *hndl_ptr, RGB_t *leds, uint32_t current_time_ms) 
 {
     hue_scroll_handle_t hndl = (hue_scroll_handle_t) hndl_ptr;
 

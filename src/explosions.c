@@ -23,28 +23,28 @@ struct explosions_t {
     explosion_t explosion[];
 };
 
-uint32_t explosions_get_handle_size(explosions_init_t cfg)
+uint32_t explosions_get_handle_size(const explosions_init_t *cfg)
 {
-    return sizeof(explosions_t) + sizeof(explosion_t) * cfg.explosions_max_num;
+    return sizeof(explosions_t) + sizeof(explosion_t) * cfg->explosions_max_num;
 }
 
-void explosions_init(void *hndl_ptr, explosions_init_t cfg)
+void explosions_init(void *hndl_ptr, const explosions_init_t *cfg)
 {
     explosions_handle_t hndl = (explosions_handle_t) hndl_ptr;
     hndl->active_items = 0;
     hndl->last_birth_time = 0;
-    hndl->speed = cfg.frames_for_animation;
-    hndl->birth_delta = cfg.birth_delta;
-    hndl->width = cfg.width;
-    hndl->bg_color = cfg.c.bg_color;
-    hndl->is_color_random = cfg.c.random;
-    hndl->explosions_max_num = cfg.explosions_max_num;
+    hndl->speed = cfg->frames_for_animation;
+    hndl->birth_delta = cfg->birth_delta;
+    hndl->width = cfg->width;
+    hndl->bg_color = cfg->c.bg_color;
+    hndl->is_color_random = cfg->c.random;
+    hndl->explosions_max_num = cfg->explosions_max_num;
     for(uint32_t i = 0; i < hndl->explosions_max_num; i++) {
         explosion_t *e = &hndl->explosion[i];
         e->blend_factor = 0;
         e->pos = NO_POS;
         if (!hndl->is_color_random) {
-            e->color = cfg.c.explosions_color;
+            e->color = cfg->c.explosions_color;
         }
     }
 }
@@ -74,7 +74,7 @@ static void explosion_create(explosions_handle_t hndl, explosion_t *e)
     e->pos = new_pos;
 }
 
-void explosions_render(RGB_t *out, uint32_t current_time_ms, void *hndl_ptr)
+void explosions_render(void *hndl_ptr, RGB_t *out, uint32_t current_time_ms)
 {
     explosions_handle_t hndl = (explosions_handle_t) hndl_ptr;
 
